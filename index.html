@@ -5,6 +5,23 @@
     <title></title>
   </head>
   <body>
-    <h1>Hello!</h1>
+    <h1>Html<h1>
+    <textarea rows="4" cols="50" id="html"></textarea>
+    <h1>CSS<h1>
+    <textarea rows="4" cols="50" id="css"></textarea>
+    <h1>Js<h1>
+    <textarea rows="4" cols="50" id="js"></textarea>
+    <button onclick="go()">Go!</button>
+    <script>
+    var ipc = require('electron').ipcRenderer;
+    function go() {
+      var args = [
+        document.getElementById('html').value,
+        document.getElementById('css').value,
+        document.getElementById('js').value
+      ];
+      ipc.send('reload', args);
+    }
+    </script>
   </body>
 </html>
