@@ -1,0 +1,22 @@
+{
+  "name": "devpencil",
+  "version": "1.0.0",
+  "description": "Offline codepen, for your creativity",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/niccolomarcon/devpencil",
+  "author": "Niccolò Marcon",
+  "license": "ISC",
+  "keywords": [
+    "Electron",
+    "quick",
+    "codepen",
+    "live",
+    "preview"
+  ],
+  "dependencies": {
+    "electron": "^1.6.2"
+  }
+}
