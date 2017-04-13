@@ -43,6 +43,10 @@ function createWindow() {
 
   liveWindow = new BrowserWindow({width: 800, height: 600});
   liveWindow.loadURL('http://localhost:8080/index.html');
+
+  liveWindow.on('closed', function() {
+    liveWindow = null;
+  });
 }
 
 app.on('ready', createWindow);

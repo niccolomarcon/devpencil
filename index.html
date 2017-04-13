@@ -2,24 +2,58 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      position: relative;
+      background-color: #272822;
+    }
+    .editor {
+        width: 100%;
+        height: calc((100% / 3) - 30px);
+        margin-left: -15px;
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+    h2 {
+      margin: 0;
+      color: white;
+      font-family: sans-serif;
+      letter-spacing: 2px;
+    }
+    </style>
   </head>
   <body>
-    <h1>Html<h1>
-    <textarea rows="4" cols="50" id="html"></textarea>
-    <h1>CSS<h1>
-    <textarea rows="4" cols="50" id="css"></textarea>
-    <h1>Js<h1>
-    <textarea rows="4" cols="50" id="js"></textarea>
-    <button onclick="go()">Go!</button>
+    <h2>Html</h2>
+    <div id="html" class="editor"></div>
+    <h2>CSS</h2>
+    <div id="css" class="editor"></div>
+    <h2>Js</h2>
+    <div id="js" class="editor"></div>
+    <script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script>
+    var editors = [ace.edit('html'), ace.edit('css'), ace.edit('js')];
+    var modes = ['html', 'css', 'javascript'];
+    var files = ['html.html', 'style.css', 'javascript.js'];
+    var fs = require('fs');
+
+    for (var i = 0; i < editors.length; i++) {
+      var editor = editors[i];
+      var session = editors[i].getSession();
+      session.setMode('ace/mode/' + modes[i]);
+      session.setTabSize(2);
+      session.setUseSoftTabs(true);
+      session.setUseWorker(false);
+      editor.setTheme('ace/theme/monokai');
+      editor.setShowPrintMargin(false);
+      editor.setValue(fs.readFileSync('./current/' + files[i], 'utf8'));
+      session.on('change', send);
+    }
+
     var ipc = require('electron').ipcRenderer;
-    function go() {
-      var args = [
-        document.getElementById('html').value,
-        document.getElementById('css').value,
-        document.getElementById('js').value
-      ];
+    function send(e) {
+      var args = editors.map(function(editor) { return editor.getValue(); });
       ipc.send('reload', args);
     }
     </script>
