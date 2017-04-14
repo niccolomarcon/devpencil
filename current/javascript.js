@@ -1,1 +1,1 @@
-document.getElementsByTagName('h1')[0].innerHTML += ' a tutti!';
+
